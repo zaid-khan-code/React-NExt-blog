@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import BlogPostDetail from '@/components/blog/BlogPostDetail'
 import { mockPosts } from '@/data/mockPosts'
 import { useRouter } from 'next/router'
@@ -23,10 +24,35 @@ function Blog() {
     loadPost()
   }, [router.isReady, blogId])
 
-  if (loading) return <>Loading...</>
-  if (!post) return <>Post not found</>
+  if (loading) {
+    return (
+      <>
+        <Head>
+          <title>Loading... | React Next Blog</title>
+        </Head>
+        Loading...
+      </>
+    )
+  }
+  if (!post) {
+    return (
+      <>
+        <Head>
+          <title>Post not found | React Next Blog</title>
+        </Head>
+        Post not found
+      </>
+    )
+  }
 
-  return <BlogPostDetail post={post} />
+  return (
+    <>
+      <Head>
+        <title>{post.title} | React Next Blog</title>
+      </Head>
+      <BlogPostDetail post={post} />
+    </>
+  )
 }
 
 export default Blog

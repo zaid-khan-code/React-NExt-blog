@@ -1,6 +1,7 @@
 'use client';
 
 import BlogCard from './BlogCard';
+import Link from 'next/link';
 import { mockPosts } from '@/data/mockPosts';
 
 export default function BlogGridContainer() {
@@ -14,7 +15,7 @@ export default function BlogGridContainer() {
           </p>
         </div>
 
-        {/* Posts Grid */}
+         
         {mockPosts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {mockPosts.map((post) => (

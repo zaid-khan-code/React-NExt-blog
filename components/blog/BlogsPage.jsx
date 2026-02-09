@@ -1,20 +1,21 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
-import Image from 'next/image';
-import Navbar from './Navbar';
-import Footer from './Footer';
-import { mockPosts } from '@/data/mockPosts';
+import { useState, useMemo } from "react";
+import Image from "next/image";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import { mockPosts } from "@/data/mockPosts";
+import Link from "next/link";
 
 export default function BlogsPage() {
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
-  const [sortBy, setSortBy] = useState('date'); // 'date' or 'readTime'
+  const [viewMode, setViewMode] = useState("grid"); // 'grid' or 'list'
+  const [sortBy, setSortBy] = useState("date"); // 'date' or 'readTime'
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = viewMode === 'grid' ? 9 : 10;
+  const postsPerPage = viewMode === "grid" ? 9 : 10;
 
   const sortedPosts = useMemo(() => {
     const sorted = [...mockPosts];
-    if (sortBy === 'readTime') {
+    if (sortBy === "readTime") {
       sorted.sort((a, b) => b.readTime - a.readTime);
     } else {
       sorted.sort((a, b) => {
@@ -25,73 +26,93 @@ export default function BlogsPage() {
     }
     return sorted;
   }, [sortBy]);
- 
+
   const totalPages = Math.ceil(sortedPosts.length / postsPerPage);
   const startIndex = (currentPage - 1) * postsPerPage;
-  const paginatedPosts = sortedPosts.slice(startIndex, startIndex + postsPerPage);
+  const paginatedPosts = sortedPosts.slice(
+    startIndex,
+    startIndex + postsPerPage,
+  );
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <main>
       <Navbar />
-       
+
       <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 dark:from-slate-950 to-slate-800 dark:to-slate-900">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">All Blogs</h1>
-          <p className="text-lg text-slate-300 mb-2">Discover in-depth insights, tutorials, and industry trends</p>
-          <p className="text-slate-400">Total blogs: <span className="font-semibold">{mockPosts.length}</span></p>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            All Blogs
+          </h1>
+          <p className="text-lg text-slate-300 mb-2">
+            Discover in-depth insights, tutorials, and industry trends
+          </p>
+          <p className="text-slate-400">
+            Total blogs:{" "}
+            <span className="font-semibold">{mockPosts.length}</span>
+          </p>
         </div>
       </section>
- 
+
       <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">View:</span>
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                View:
+              </span>
               <div className="flex gap-2 bg-slate-100 dark:bg-slate-800 rounded-lg p-1">
                 <button
                   onClick={() => {
-                    setViewMode('grid');
+                    setViewMode("grid");
                     setCurrentPage(1);
                   }}
                   className={`px-4 py-2 rounded transition-colors ${
-                    viewMode === 'grid'
-                      ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    viewMode === "grid"
+                      ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm"
+                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                   title="Grid view"
                 >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path d="M3 3h7v7H3V3zm11 0h7v7h-7V3zM3 14h7v7H3v-7zm11 0h7v7h-7v-7z" />
                   </svg>
                 </button>
                 <button
                   onClick={() => {
-                    setViewMode('list');
+                    setViewMode("list");
                     setCurrentPage(1);
                   }}
                   className={`px-4 py-2 rounded transition-colors ${
-                    viewMode === 'list'
-                      ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    viewMode === "list"
+                      ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm"
+                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                   title="List view"
                 >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" />
                   </svg>
                 </button>
               </div>
             </div>
 
-         
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Sort by:</span>
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                Sort by:
+              </span>
               <select
                 value={sortBy}
                 onChange={(e) => {
@@ -108,28 +129,33 @@ export default function BlogsPage() {
         </div>
       </section>
 
-   
       <section className="py-6 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-6xl mx-auto">
           <p className="text-slate-600 dark:text-slate-400">
-            Showing <span className="font-semibold text-slate-900 dark:text-white">{paginatedPosts.length}</span> of <span className="font-semibold text-slate-900 dark:text-white">{sortedPosts.length}</span> blogs
+            Showing{" "}
+            <span className="font-semibold text-slate-900 dark:text-white">
+              {paginatedPosts.length}
+            </span>{" "}
+            of{" "}
+            <span className="font-semibold text-slate-900 dark:text-white">
+              {sortedPosts.length}
+            </span>{" "}
+            blogs
           </p>
         </div>
       </section>
- 
+
       <section className="py-12 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
           {paginatedPosts.length > 0 ? (
             <>
-              {viewMode === 'grid' ? (
-              
+              {viewMode === "grid" ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {paginatedPosts.map((post) => (
                     <article
                       key={post.id}
                       className="bg-white dark:bg-slate-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow h-full flex flex-col"
                     >
-                    
                       <div className="relative w-full h-48 overflow-hidden bg-slate-200 dark:bg-slate-700">
                         <Image
                           src={post.image}
@@ -144,7 +170,6 @@ export default function BlogsPage() {
                         </div>
                       </div>
 
-                 
                       <div className="p-6 flex flex-col flex-grow">
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 line-clamp-2">
                           {post.title}
@@ -169,13 +194,25 @@ export default function BlogsPage() {
                               <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
                                 {post.author.name}
                               </p>
-                              <p className="text-xs text-slate-500 dark:text-slate-400">{post.date}</p>
+                              <p className="text-xs text-slate-500 dark:text-slate-400">
+                                {post.date}
+                              </p>
                             </div>
                           </div>
 
                           <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <svg
+                              className="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
                             </svg>
                             <span>{post.readTime} min read</span>
                           </div>
@@ -184,14 +221,13 @@ export default function BlogsPage() {
 
                       <div className="px-6 pb-6 pt-0">
                         <button className="w-full px-4 py-2 text-slate-900 dark:text-white font-medium border border-slate-900 dark:border-white rounded-lg hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors">
-                          Read More
+                          <Link href={`/blogs/${post.id}`}>Read More</Link>
                         </button>
                       </div>
                     </article>
                   ))}
                 </div>
               ) : (
-              
                 <div className="space-y-4">
                   {paginatedPosts.map((post) => (
                     <article
@@ -227,19 +263,31 @@ export default function BlogsPage() {
                               <p className="font-semibold text-slate-900 dark:text-white">
                                 {post.author.name}
                               </p>
-                              <p className="text-xs text-slate-500 dark:text-slate-400">{post.date}</p>
+                              <p className="text-xs text-slate-500 dark:text-slate-400">
+                                {post.date}
+                              </p>
                             </div>
                           </div>
 
                           <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <svg
+                              className="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
                             </svg>
                             <span>{post.readTime} min</span>
                           </div>
 
                           <button className="ml-auto px-4 py-2 text-slate-900 dark:text-white font-medium border border-slate-900 dark:border-white rounded-lg hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors">
-                            Read More
+                            <Link href={`/blogs/${post.id}`}>Read More</Link>
                           </button>
                         </div>
                       </div>
@@ -248,7 +296,6 @@ export default function BlogsPage() {
                 </div>
               )}
 
-             
               {totalPages > 1 && (
                 <div className="mt-12 flex justify-center items-center gap-2">
                   <button
@@ -260,19 +307,21 @@ export default function BlogsPage() {
                   </button>
 
                   <div className="flex gap-1">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                      <button
-                        key={page}
-                        onClick={() => handlePageChange(page)}
-                        className={`px-3 py-2 rounded-lg font-medium transition-colors ${
-                          currentPage === page
-                            ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900'
-                            : 'border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    ))}
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                      (page) => (
+                        <button
+                          key={page}
+                          onClick={() => handlePageChange(page)}
+                          className={`px-3 py-2 rounded-lg font-medium transition-colors ${
+                            currentPage === page
+                              ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900"
+                              : "border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      ),
+                    )}
                   </div>
 
                   <button
