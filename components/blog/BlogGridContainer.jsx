@@ -3,34 +3,21 @@
 import BlogCard from './BlogCard';
 import { mockPosts } from '@/data/mockPosts';
 
-export default function BlogGridContainer({ searchQuery, selectedCategory }) {
-  const filteredPosts = mockPosts.filter((post) => {
-    const matchesSearch =
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.author.name.toLowerCase().includes(searchQuery.toLowerCase());
-
-    const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
-
-    return matchesSearch && matchesCategory;
-  });
-
+export default function BlogGridContainer() {
   return (
     <section className="py-12 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-950">
       <div className="max-w-6xl mx-auto">
         {/* Results Count */}
         <div className="mb-8">
           <p className="text-slate-600 dark:text-slate-400">
-            Showing <span className="font-semibold text-slate-900 dark:text-white">{filteredPosts.length}</span> blogs
-            {searchQuery && ` matching "${searchQuery}"`}
-            {selectedCategory !== 'All' && ` in ${selectedCategory}`}
+            Showing <span className="font-semibold text-slate-900 dark:text-white">{mockPosts.length}</span> blogs
           </p>
         </div>
 
         {/* Posts Grid */}
-        {filteredPosts.length > 0 ? (
+        {mockPosts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPosts.map((post) => (
+            {mockPosts.map((post) => (
               <BlogCard key={post.id} post={post} />
             ))}
           </div>
@@ -50,7 +37,7 @@ export default function BlogGridContainer({ searchQuery, selectedCategory }) {
               />
             </svg>
             <p className="text-lg text-slate-600 dark:text-slate-400">
-              No blogs found. Try adjusting your search or filters.
+              No blogs found.
             </p>
           </div>
         )}

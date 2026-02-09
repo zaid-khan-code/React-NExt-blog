@@ -4,31 +4,16 @@ import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import { mockPosts, categories } from '@/data/mockPosts';
+import { mockPosts } from '@/data/mockPosts';
 
 export default function BlogsPage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const [sortBy, setSortBy] = useState('date'); // 'date' or 'readTime'
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = viewMode === 'grid' ? 9 : 10;
- 
-  const filteredPosts = useMemo(() => {
-    return mockPosts.filter((post) => {
-      const matchesSearch =
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.author.name.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
-
-      return matchesSearch && matchesCategory;
-    });
-  }, [searchQuery, selectedCategory]);
- 
   const sortedPosts = useMemo(() => {
-    const sorted = [...filteredPosts];
+    const sorted = [...mockPosts];
     if (sortBy === 'readTime') {
       sorted.sort((a, b) => b.readTime - a.readTime);
     } else {
@@ -39,7 +24,7 @@ export default function BlogsPage() {
       });
     }
     return sorted;
-  }, [filteredPosts, sortBy]);
+  }, [sortBy]);
  
   const totalPages = Math.ceil(sortedPosts.length / postsPerPage);
   const startIndex = (currentPage - 1) * postsPerPage;
@@ -64,54 +49,6 @@ export default function BlogsPage() {
  
       <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-6xl mx-auto">
-       
-          <div className="mb-8">
-            <div className="relative">
-              <svg
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              <input
-                type="text"
-                placeholder="Search blogs by title, author, or content..."
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setCurrentPage(1);
-                }}
-                className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-white"
-              />
-            </div>
-          </div>
-
-          
-          <div className="mb-8">
-            <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">Categories</p>
-            <div className="flex flex-wrap gap-3">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => {
-                    setSelectedCategory(category);
-                    setCurrentPage(1);
-                  }}
-                  className={`px-5 py-2 rounded-full font-medium transition-colors ${
-                    selectedCategory === category
-                      ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900'
-                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-          </div>
-
-    
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         
             <div className="flex items-center gap-2">
@@ -176,8 +113,6 @@ export default function BlogsPage() {
         <div className="max-w-6xl mx-auto">
           <p className="text-slate-600 dark:text-slate-400">
             Showing <span className="font-semibold text-slate-900 dark:text-white">{paginatedPosts.length}</span> of <span className="font-semibold text-slate-900 dark:text-white">{sortedPosts.length}</span> blogs
-            {searchQuery && ` matching "${searchQuery}"`}
-            {selectedCategory !== 'All' && ` in ${selectedCategory}`}
           </p>
         </div>
       </section>
