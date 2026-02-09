@@ -10,8 +10,7 @@ export default function BlogLandingPage() {
   return (
     <main>
       <Navbar />
-      <HeroSection />
-       
+      <HeroSection /> 
       <BlogGridContainer />
       <NewsletterCTA />
       <Footer />
