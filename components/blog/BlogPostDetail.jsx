@@ -25,7 +25,7 @@ export default function BlogPostDetail({ post }) {
 
   return (
     <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* Navigation */}
+      
       <Link
         href="/blogs"
         className="inline-flex items-center text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white mb-8 transition-colors group"
